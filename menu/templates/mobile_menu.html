@@ -58,69 +58,180 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
+/* ===== صفحه لودینگ ===== */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
 
-    /* ===== صفحه‌ی لودینگ ===== */
-    .page-loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.35) 0%, transparent 55%),
-        linear-gradient(160deg, #4a3413 0%, #7c5a22 45%, #a3792f 75%, #7c5a22 100%);
-      transition: opacity 0.5s ease;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    @media (prefers-color-scheme: dark) {
-      .page-loader {
-        background:
-          radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.18) 0%, transparent 55%),
-          linear-gradient(160deg, #14100a 0%, #2c2010 45%, #4a3413 75%, #2c2010 100%);
-      }
-    }
+  background:
+    radial-gradient(
+      ellipse 140% 100% at 50% -20%,
+      rgba(244, 226, 168, 0.35) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      160deg,
+      #4a3413 0%,
+      #7c5a22 45%,
+      #a3792f 75%,
+      #7c5a22 100%
+    );
 
-    .page-loader.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
+  transition: opacity 0.5s ease;
+}
+@media (prefers-color-scheme: dark) {
+  .page-loader {
+    background:
+      radial-gradient(
+        ellipse 140% 100% at 50% -20%,
+        rgba(244, 226, 168, 0.18) 0%,
+        transparent 55%
+      ),
+      linear-gradient(
+        160deg,
+        #14100a 0%,
+        #2c2010 45%,
+        #4a3413 75%,
+        #2c2010 100%
+      );
+  }
+}
 
-    .loader-coin {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        conic-gradient(from 220deg, #7c5a22, #d9b25c, #f4e2a8, #d9b25c, #8a6323, #d9b25c, #7c5a22);
-      box-shadow:
-        0 10px 26px rgba(0, 0, 0, 0.35),
-        0 0 0 3px rgba(255, 248, 220, 0.55);
-      animation: loaderSpin 1.1s linear infinite;
-      margin-bottom: 18px;
-    }
+.page-loader.hide {
+  opacity: 0;
+  pointer-events: none;
+}
 
-    @keyframes loaderSpin {
-      from { transform: rotateY(0deg); }
-      to   { transform: rotateY(360deg); }
-    }
+/* ===== سکه ===== */
+.loader-coin {
+  width: 120px;
+  height: 120px;
 
-    .loader-coin i {
-      font-size: 1.7rem;
-      color: #fff8e8;
-    }
+  flex: 0 0 78px;
 
-    .loader-text {
-      color: #fff8e8;
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    conic-gradient(
+      from 220deg,
+      #7c5a22,
+      #d9b25c,
+      #f4e2a8,
+      #d9b25c,
+      #8a6323,
+      #d9b25c,
+      #7c5a22
+    );
+
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.35),
+    0 0 0 3px rgba(255, 248, 220, 0.55);
+
+  /* همان چرخش قبلی */
+  animation: loaderSpin 1.1s linear infinite;
+}
+
+/* اندازه تصویر داخل سکه */
+.loader-coin img {
+  width: 100%;
+  height: 100%;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+  display: block;
+
+  border-radius: 50%;
+}
+
+@keyframes loaderSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+/* ===== متن ===== */
+.loader-text {
+  margin-top: 16px;
+
+  color: #fff8e8;
+
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  direction: rtl;
+
+  white-space: nowrap;
+}
+
+.loader-dots {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.loader-dots span {
+  animation: loaderDots 1.2s infinite;
+  opacity: 0.3;
+}
+
+.loader-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loader-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loaderDots {
+  0%, 100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ===== موبایل ===== */
+@media (max-width: 480px) {
+  .page-loader {
+    justify-content: center;
+  }
+
+  .loader-coin {
+    width: 120px;
+    height: 120px;
+    flex-basis: 120px;
+  }
+
+  .loader-text {
+    margin-top: 14px;
+    font-size: 0.85rem;
+  }
+}
 
     .loader-dots span {
       animation: loaderDots 1.2s infinite;

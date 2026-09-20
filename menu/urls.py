@@ -9,7 +9,7 @@ urlpatterns = [
     path('pizza', show_menu_pizza, name='menu'),
     path('others', show_menu_others, name='menu'),
     path('sold-out', set_sold_out, name='set_sold_out'),
-    path('mobile', show_mobile_menu, name='show_mobile_menu'),
+    path('', show_mobile_menu, name='show_mobile_menu'),
     
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
