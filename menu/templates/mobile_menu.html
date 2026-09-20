@@ -1,0 +1,974 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>سکه طلا | منو</title>
+  <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+
+  <style>
+    :root {
+      --cream: #FAF6EC;
+      --paper: #FFFFFF;
+      --ink: #2B2620;
+      --muted: #8A8171;
+      --hairline: #E9DFC4;
+      --gold: #B8892E;
+      --gold-deep: #8A6323;
+      --gold-soft: #F2E6C4;
+      --rust: #A24B33;
+      --bar-bg: #FFFFFF;
+      --shadow-color: rgba(60, 45, 15, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cream: #17130D;
+        --paper: #241E14;
+        --ink: #F3ECDD;
+        --muted: #B3A78D;
+        --hairline: #3A311F;
+        --gold: #D7AE5B;
+        --gold-deep: #E8C77D;
+        --gold-soft: #362B15;
+        --rust: #D9765A;
+        --bar-bg: #1D1810;
+        --shadow-color: rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      padding-bottom: 96px;
+      min-height: 100vh;
+    }
+
+    button { font-family: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--gold-deep);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ===== صفحه‌ی لودینگ ===== */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.35) 0%, transparent 55%),
+        linear-gradient(160deg, #4a3413 0%, #7c5a22 45%, #a3792f 75%, #7c5a22 100%);
+      transition: opacity 0.5s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .page-loader {
+        background:
+          radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.18) 0%, transparent 55%),
+          linear-gradient(160deg, #14100a 0%, #2c2010 45%, #4a3413 75%, #2c2010 100%);
+      }
+    }
+
+    .page-loader.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader-coin {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        conic-gradient(from 220deg, #7c5a22, #d9b25c, #f4e2a8, #d9b25c, #8a6323, #d9b25c, #7c5a22);
+      box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(255, 248, 220, 0.55);
+      animation: loaderSpin 1.1s linear infinite;
+      margin-bottom: 18px;
+    }
+
+    @keyframes loaderSpin {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(360deg); }
+    }
+
+    .loader-coin i {
+      font-size: 1.7rem;
+      color: #fff8e8;
+    }
+
+    .loader-text {
+      color: #fff8e8;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .loader-dots span {
+      animation: loaderDots 1.2s infinite;
+      opacity: 0.3;
+    }
+
+    .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes loaderDots {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ===== سربرگ ===== */
+    .brand-section {
+      position: relative;
+      padding: 38px 20px 30px;
+      text-align: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.35) 0%, transparent 55%),
+        linear-gradient(160deg, #4a3413 0%, #7c5a22 45%, #a3792f 75%, #7c5a22 100%);
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .brand-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 26px,
+        rgba(255, 248, 220, 0.045) 26px,
+        rgba(255, 248, 220, 0.045) 27px
+      );
+      pointer-events: none;
+    }
+
+    .brand-glow {
+      position: absolute;
+      inset: -30% -15%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 236, 176, 0.45), transparent 58%);
+      filter: blur(28px);
+      animation: driftGlow 15s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes driftGlow {
+      from { transform: translate(-6%, -4%) scale(1); }
+      to   { transform: translate(6%, 5%) scale(1.18); }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .brand-section {
+        background:
+          radial-gradient(ellipse 140% 100% at 50% -20%, rgba(244, 226, 168, 0.18) 0%, transparent 55%),
+          linear-gradient(160deg, #14100a 0%, #2c2010 45%, #4a3413 75%, #2c2010 100%);
+      }
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* مدال سکه سه‌بعدی — تنها لحظه‌ی درخشش صفحه */
+    .coin-scene {
+      perspective: 900px;
+      width: 104px;
+      height: 104px;
+      margin-bottom: 16px;
+    }
+
+    .coin-3d {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      animation: coinIntro 0.9s cubic-bezier(.2,.8,.2,1) both,
+                 coinSpin 8s linear 1.1s infinite;
+    }
+
+    .coin-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        conic-gradient(from 220deg, #7c5a22, #d9b25c, #f4e2a8, #d9b25c, #8a6323, #d9b25c, #7c5a22);
+      box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(255, 248, 220, 0.55),
+        inset 0 0 0 3px rgba(255,255,255,0.35),
+        inset 0 -6px 10px rgba(90, 62, 12, 0.45);
+      overflow: hidden;
+    }
+
+    .coin-face.coin-back { transform: rotateY(180deg); }
+
+    .coin-face::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.55) 48%, transparent 66%);
+      transform: translateX(-120%);
+      animation: coinShine 1.4s ease-out 0.5s 1;
+    }
+
+    @keyframes coinIntro {
+      from { transform: scale(0.6) rotateY(-25deg); opacity: 0; }
+      to { transform: scale(1) rotateY(0deg); opacity: 1; }
+    }
+
+    @keyframes coinSpin {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(360deg); }
+    }
+
+    @keyframes coinShine {
+      to { transform: translateX(120%); }
+    }
+
+    .coin-inner {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .coin-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .coin-inner i {
+      font-size: 1.9rem;
+      color: var(--gold-deep);
+    }
+
+    .brand-name {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: #fff8e8;
+      margin: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .brand-subtitle {
+      font-size: 0.88rem;
+      color: #f0dfae;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* ===== دسته‌بندی‌ها ===== */
+    .categories-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bar-bg);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      white-space: nowrap;
+    }
+
+    .categories::-webkit-scrollbar { display: none; }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      padding: 8px 16px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .category-item .cat-icon { font-size: 1rem; }
+
+    .category-item.active {
+      background: var(--gold-deep);
+      color: #fff8e8;
+      border-color: var(--gold-deep);
+    }
+
+    /* ===== محتوای منو ===== */
+    .menu-container {
+      padding: 18px 14px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .category-section { scroll-margin-top: 92px; padding-bottom: 6px; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 2px 12px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .section-title .section-icon { font-size: 1.2rem; }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--hairline);
+    }
+
+    .empty-menu {
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      font-size: 0.95rem;
+    }
+
+    /* ===== کارت محصول ===== */
+    .menu-card {
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      box-shadow: 0 4px 14px var(--shadow-color);
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .card-img {
+      width: 84px;
+      height: 84px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--gold-soft);
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      text-align: right;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 1px;
+    }
+
+    .card-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      color: var(--gold-deep);
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card-price {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--gold-deep);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .card-price .old-price {
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .card-price .discounted { color: var(--rust); }
+    .card-price .currency { font-size: 0.68rem; font-weight: 500; opacity: 0.75; }
+
+    /* برچسب ناموجود */
+    .sold-out-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--rust);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 999px;
+      z-index: 5;
+    }
+
+    .menu-card.sold-out { opacity: 0.5; filter: grayscale(0.6); }
+
+    /* ===== نوار پایین ===== */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bar-bg);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--hairline);
+      box-shadow: 0 -4px 16px var(--shadow-color);
+      z-index: 30;
+    }
+
+    .bottom-bar.single { justify-content: center; }
+
+    .bottom-btn {
+      background: var(--gold-deep);
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff8e8;
+      font-size: 1.25rem;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .bottom-btn.ghost {
+      background: transparent;
+      border: 1.5px solid var(--hairline);
+      color: var(--ink);
+    }
+
+    /* ===== جستجو ===== */
+    .search-wrap {
+      padding: 10px 16px 12px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cream);
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: 9px 14px;
+    }
+
+    .search-box i { color: var(--muted); font-size: 0.9rem; }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .search-box input::placeholder { color: var(--muted); }
+
+    .search-clear {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: none;
+      padding: 2px;
+    }
+
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      padding: 50px 20px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    /* ===== پیشنهاد ویژه ===== */
+    .featured-wrap { padding: 16px 0 4px; }
+
+    .featured-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0 14px 10px;
+    }
+
+    .featured-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 2px 14px 6px;
+      scrollbar-width: none;
+    }
+
+    .featured-scroll::-webkit-scrollbar { display: none; }
+
+    .featured-card {
+      flex-shrink: 0;
+      width: 158px;
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px var(--shadow-color);
+    }
+
+    .featured-card img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      background: var(--gold-soft);
+    }
+
+    .featured-card-body { padding: 10px; }
+
+    .featured-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .featured-card-price {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold-deep);
+    }
+
+    /* ===== دکمه بازگشت به بالا ===== */
+    .to-top-btn {
+      position: fixed;
+      bottom: 84px;
+      left: 16px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      color: var(--gold-deep);
+      box-shadow: 0 4px 14px var(--shadow-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 25;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .to-top-btn.visible { opacity: 1; pointer-events: auto; }
+
+    @media (min-width: 768px) {
+      .menu-container { padding: 20px 24px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== صفحه‌ی لودینگ ===== -->
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-coin">
+      <img src="{% static 'icons/loading_logo.svg' %}" alt="لوگو سکه طلا">
+
+    </div>
+    <div class="loader-text">
+      <span>در حال آماده‌سازی منو</span>
+      <span class="loader-dots"><span>.</span><span>.</span><span>.</span></span>
+    </div>
+  </div>
+
+  <!-- ===== سربرگ ===== -->
+  <div class="brand-section">
+    <div class="brand-glow"></div>
+    <div class="brand-content">
+      <div class="coin-scene">
+        <div class="coin-3d">
+          <div class="coin-face coin-front">
+            <div class="coin-inner">
+              {% if logo %}
+                <img src="{{ logo }}" alt="سکه طلا">
+              {% else %}
+      <img src="{% static 'icons/logo.svg' %}" alt="لوگو سکه طلا">
+
+              {% endif %}
+            </div>
+          </div>
+          <div class="coin-face coin-back">
+            <div class="coin-inner">
+              <i class="fas fa-utensils"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h1 class="brand-name">سکه طلا</h1>
+      <p class="brand-subtitle">طعم اصیل، کیفیت طلایی</p>
+    </div>
+  </div>
+
+  <!-- ===== دسته‌بندی‌ها ===== -->
+  <div class="categories-wrapper">
+    <div class="search-wrap">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="menuSearch" placeholder="جستجو در منو…" aria-label="جستجو در منو">
+        <button type="button" class="search-clear" id="searchClear" aria-label="پاک کردن جستجو"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    <div class="categories" id="categoriesBar" role="tablist" aria-label="دسته‌های منو">
+      {% for category in categories %}
+        <button type="button" class="category-item {% if forloop.first %}active{% endif %}"
+             data-category="{{ category.id }}" role="tab">
+          <span class="cat-icon">{{ category.icon }}</span>
+          <span>{{ category.title }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ===== محتوای منو ===== -->
+  <main class="menu-container" id="menuContainer">
+    {% if not categories %}
+      <div class="empty-menu">منو در حال به‌روزرسانی است، کمی بعد سر بزنید.</div>
+    {% endif %}
+
+    {% if featured_items %}
+      <div class="featured-wrap">
+        <div class="featured-title">
+          <span>⭐</span>
+          <span>پیشنهاد سرآشپز</span>
+        </div>
+        <div class="featured-scroll">
+          {% for product in featured_items %}
+            <div class="featured-card">
+              {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+              {% else %}
+                <img src="{% static 'pic/logo.png' %}" alt="{{ product.name }}">
+              {% endif %}
+              <div class="featured-card-body">
+                <div class="featured-card-title">{{ product.name_new|default:product.name }}</div>
+                <div class="featured-card-price price">{{ product.discounted_price|default:product.price }} تومان</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="no-results" id="noResults">چیزی با این عنوان پیدا نشد</div>
+
+    {% for category in categories %}
+      <div class="category-section" data-category="{{ category.id }}" id="section-{{ category.id }}">
+        <div class="section-title">
+          <span class="section-icon">{{ category.icon }}</span>
+          <span>{{ category.title }}</span>
+        </div>
+
+        {% for product in category.items %}
+          <div class="menu-card {% if product.sold_out %}sold-out{% endif %}"
+               id="product-{{ product.id }}"
+               data-product-id="{{ product.id }}"
+               data-name="{{ product.name_new|default:product.name }}">
+            {% if product.sold_out %}
+              <span class="sold-out-badge">ناموجود</span>
+            {% endif %}
+
+            {% if product.image %}
+              <img class="card-img" src="static{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+              <img class="card-img" src="{% static 'pic/logo.png' %}" alt="{{ product.name }}">
+            {% endif %}
+
+            <div class="card-content">
+              <div class="card-title">{{ product.name_new|default:product.name }}</div>
+
+              {% if product.tags %}
+                <div class="card-tags">
+                  {% for tag in product.tags %}
+                    <span class="card-tag">{{ tag }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <div class="card-desc">{{ product.details }}</div>
+
+              <div class="card-bottom">
+                <div class="card-price">
+                  {% if product.price != product.discounted_price %}
+                    <span class="old-price price">{{ product.price }}</span>
+                    <span class="discounted price">{{ product.discounted_price }}</span>
+                    <span class="currency">تومان</span>
+                  {% else %}
+                    <span class="price">{{ product.price }}</span>
+                    <span class="currency">تومان</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </main>
+
+  <!-- ===== نوار پایین ===== -->
+  <div class="bottom-bar single">
+    <button class="bottom-btn" aria-label="تماس با رستوران" onclick="window.location.href='tel:{{ phone_number|default:"+983191008100" }}'">
+      <i class="fas fa-phone-alt"></i>
+    </button>
+  </div>
+
+  <button class="to-top-btn" id="toTopBtn" aria-label="بازگشت به بالا">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    /* ===== صفحه‌ی لودینگ ===== */
+    const pageLoader = document.getElementById('pageLoader');
+    const loaderMinTime = new Promise(resolve => setTimeout(resolve, 600));
+    const pageReady = new Promise(resolve => {
+      if (document.readyState === 'complete') resolve();
+      else window.addEventListener('load', resolve);
+    });
+
+    Promise.all([loaderMinTime, pageReady]).then(() => {
+      pageLoader.classList.add('hide');
+      pageLoader.addEventListener('transitionend', () => pageLoader.remove(), { once: true });
+      // در صورت غیرفعال‌بودن transition (کاهش حرکت)، مطمئن شو که لودر حذف می‌شود
+      setTimeout(() => { if (pageLoader.isConnected) pageLoader.remove(); }, 900);
+    });
+
+    function formatPrice(price) {
+      return Number(price).toLocaleString('fa-IR');
+    }
+
+    window.addEventListener('load', function () {
+      document.querySelectorAll('.price').forEach(function (el) {
+        const raw = el.textContent.replace(/,/g, '').trim();
+        const num = parseFloat(raw);
+        if (!isNaN(num)) el.textContent = formatPrice(num);
+      });
+    });
+
+    /* ===== آیکن خودکار برای برچسب‌ها ===== */
+    const TAG_ICONS = {
+      'تند': '🌶️', 'گیاهی': '🌿', 'جدید': '✨', 'ویژه': '⭐',
+      'پرفروش': '🔥', 'بدون گلوتن': '🌾'
+    };
+    document.querySelectorAll('.card-tag').forEach(tag => {
+      const text = tag.textContent.trim();
+      if (TAG_ICONS[text]) tag.textContent = TAG_ICONS[text] + ' ' + text;
+    });
+
+    /* ===== اسکرول‌اسپای دسته‌ها ===== */
+    const categoryItems = document.querySelectorAll('.category-item');
+    const categorySections = document.querySelectorAll('.category-section');
+    let isClickScrolling = false;
+    let clickScrollTimer = null;
+
+    categoryItems.forEach(item => {
+      item.addEventListener('click', function () {
+        const catId = this.getAttribute('data-category');
+        const targetSection = document.getElementById('section-' + catId);
+        if (!targetSection) return;
+
+        isClickScrolling = true;
+        categoryItems.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        const wrapperHeight = document.querySelector('.categories-wrapper').offsetHeight;
+        const sectionTop = targetSection.offsetTop - wrapperHeight - 8;
+        window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+
+        clearTimeout(clickScrollTimer);
+        clickScrollTimer = setTimeout(() => { isClickScrolling = false; }, 900);
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      if (isClickScrolling) return;
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible.length > 0) {
+        updateActiveCategory(visible[0].target.getAttribute('data-category'));
+      }
+    }, { root: null, rootMargin: '-110px 0px -55% 0px', threshold: 0 });
+
+    categorySections.forEach(section => observer.observe(section));
+
+    function updateActiveCategory(catId) {
+      let changed = false;
+      categoryItems.forEach(item => {
+        const isActive = item.getAttribute('data-category') === catId;
+        if (isActive && !item.classList.contains('active')) changed = true;
+        item.classList.toggle('active', isActive);
+      });
+      if (changed) {
+        const activeItem = document.querySelector(`.category-item[data-category="${catId}"]`);
+        if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    /* ===== جستجو ===== */
+    const searchInput = document.getElementById('menuSearch');
+    const searchClear = document.getElementById('searchClear');
+    const noResults = document.getElementById('noResults');
+    const allCards = document.querySelectorAll('.menu-card');
+    const allSections = document.querySelectorAll('.category-section');
+    const featuredWrap = document.querySelector('.featured-wrap');
+
+    function runSearch() {
+      const q = searchInput.value.trim().toLowerCase();
+      searchClear.style.display = q ? 'block' : 'none';
+
+      if (!q) {
+        allCards.forEach(c => c.style.display = '');
+        allSections.forEach(s => s.style.display = '');
+        noResults.style.display = 'none';
+        if (featuredWrap) featuredWrap.style.display = '';
+        return;
+      }
+
+      if (featuredWrap) featuredWrap.style.display = 'none';
+
+      let anyVisible = false;
+      allSections.forEach(section => {
+        let sectionHasMatch = false;
+        section.querySelectorAll('.menu-card').forEach(card => {
+          const name = (card.dataset.name || '').toLowerCase();
+          const desc = card.querySelector('.card-desc') ? card.querySelector('.card-desc').textContent.toLowerCase() : '';
+          const match = name.includes(q) || desc.includes(q);
+          card.style.display = match ? '' : 'none';
+          if (match) sectionHasMatch = true;
+        });
+        section.style.display = sectionHasMatch ? '' : 'none';
+        if (sectionHasMatch) anyVisible = true;
+      });
+
+      noResults.style.display = anyVisible ? 'none' : 'block';
+    }
+
+    searchInput.addEventListener('input', runSearch);
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      runSearch();
+      searchInput.focus();
+    });
+
+    /* ===== دکمه بازگشت به بالا ===== */
+    const toTopBtn = document.getElementById('toTopBtn');
+    window.addEventListener('scroll', () => {
+      toTopBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+    toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ===== به‌روزرسانی ناموجودی از طریق وب‌سوکت ===== */
+    try {
+      const socket = new WebSocket("ws://" + window.location.host + "/ws/menu_updates/");
+      socket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const soldOutName = data.menu_status.name;
+
+        document.querySelectorAll(".menu-card").forEach(card => {
+          if (card.dataset.name === soldOutName) {
+            card.classList.add("sold-out");
+            if (!card.querySelector(".sold-out-badge")) {
+              const badge = document.createElement("span");
+              badge.textContent = "ناموجود";
+              badge.className = "sold-out-badge";
+              card.prepend(badge);
+            }
+          }
+        });
+      };
+    } catch (e) {}
+  </script>
+
+</body>
+</html>
