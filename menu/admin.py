@@ -47,7 +47,9 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
+        "is_active",
         "image_preview",
+        "foodsoft_id",
         "name",
         "mother",
         "price",
@@ -61,6 +63,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
     list_filter = (
         "mother",
         "is_new",
+        "is_active",
         "created_at",
         "updated_at",
     )
@@ -88,6 +91,8 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
+                    "foodsoft_id",
+                    "is_active",
                     "mother",
                     "image",
                     "details",

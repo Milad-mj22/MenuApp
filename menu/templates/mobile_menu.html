@@ -756,6 +756,120 @@
     @media (min-width: 768px) {
       .menu-container { padding: 20px 24px 8px; }
     }
+
+
+
+
+
+
+
+/* ===== نمایش تمام‌صفحه تصویر ===== */
+.img-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  cursor: zoom-out;
+  padding: 20px;
+}
+
+.img-lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.img-lightbox img {
+  max-width: 95vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  cursor: default;
+
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+
+.img-lightbox.open img {
+  transform: scale(1);
+}
+
+/* دکمه بستن */
+.img-lightbox-close {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 10001;
+
+  transition: background 0.2s, transform 0.2s;
+}
+
+.img-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.08);
+}
+
+.img-lightbox-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* جلوگیری از اسکرول صفحه وقتی لایت‌باکس باز است */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* روی موبایل کمی کوچک‌تر */
+@media (max-width: 480px) {
+  .img-lightbox-close {
+    top: 14px;
+    left: 14px;
+    width: 42px;
+    height: 42px;
+  }
+  .img-lightbox img {
+    max-width: 96vw;
+    max-height: 88vh;
+    border-radius: 10px;
+  }
+}
+
+
+
+
+
+.img-lightbox img {
+  touch-action: pinch-zoom;
+}
+
+
+
+
   </style>
 </head>
 <body>
@@ -886,7 +1000,9 @@
                 </div>
               {% endif %}
 
-              <div class="card-desc">{{ product.details }}</div>
+              {% if product.details %}
+                  <div class="card-desc">{{ product.details }}</div>
+              {% endif %}
 
               <div class="card-bottom">
                 <div class="card-price">
@@ -918,11 +1034,22 @@
   </div>
 
   <button class="to-top-btn" id="toTopBtn" aria-label="بازگشت به بالا">
-    <i class="fas fa-arrow-up"></i>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 4l-8 8h5v8h6v-8h5z"/>
     </svg>
   </button>
+
+  <!-- ===== اینجا اضافه کن ===== -->
+  <div class="img-lightbox" id="imgLightbox" aria-hidden="true" role="dialog">
+    <button class="img-lightbox-close" id="lightboxClose" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
 
   <script>
     /* ===== صفحه‌ی لودینگ ===== */
@@ -1119,7 +1246,54 @@
     
     
     
-    
+    /* ===== لایت‌باکس تصویر ===== */
+const lightbox      = document.getElementById('imgLightbox');
+const lightboxImg   = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightbox(src, alt = '') {
+  if (!src) return;
+  lightboxImg.src = src;
+  lightboxImg.alt = alt;
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('lightbox-open');
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('lightbox-open');
+  setTimeout(() => { lightboxImg.src = ''; }, 250);
+}
+
+// event delegation → برای همه تصاویر (استاتیک و داینامیک) کار میکند
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('.card-img, .featured-card img, .coin-inner img');
+  if (img && img.src) {
+    e.stopPropagation();
+    openLightbox(img.src, img.alt || '');
+    return;
+  }
+
+  // کلیک روی خود لایت‌باکس (نه تصویر) → بستن
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+// دکمه بستن
+lightboxClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeLightbox();
+});
+
+// Esc
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+    closeLightbox();
+  }
+});
     
     
   </script>
