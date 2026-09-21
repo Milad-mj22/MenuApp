@@ -112,8 +112,8 @@
 .loader-coin {
   width: 120px;
   height: 120px;
+  flex-basis: 120px;
 
-  flex: 0 0 78px;
 
   border-radius: 50%;
 
@@ -869,11 +869,12 @@
             {% endif %}
 
             {% if product.image %}
-              <img class="card-img" src="static{{ product.image.url }}" alt="{{ product.name }}">
+              <img class="card-img smart-img"
+                   data-url="{{ product.image.url }}"
+                   alt="{{ product.name }}">
             {% else %}
               <img class="card-img" src="{% static 'pic/logo.png' %}" alt="{{ product.name }}">
             {% endif %}
-
             <div class="card-content">
               <div class="card-title">{{ product.name_new|default:product.name }}</div>
 
@@ -908,13 +909,19 @@
 
   <!-- ===== نوار پایین ===== -->
   <div class="bottom-bar single">
-    <button class="bottom-btn" aria-label="تماس با رستوران" onclick="window.location.href='tel:{{ phone_number|default:"+983191008100" }}'">
-      <i class="fas fa-phone-alt"></i>
+    <button class="bottom-btn" aria-label="تماس با رستوران"
+            onclick="window.location.href='tel:{{ phone_number|default:"+983191008100" }}'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.4 11.4 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.57 3.58 1 1 0 01-.24 1.01l-2.2 2.2z"/>
+      </svg>
     </button>
   </div>
 
   <button class="to-top-btn" id="toTopBtn" aria-label="بازگشت به بالا">
     <i class="fas fa-arrow-up"></i>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+    </svg>
   </button>
 
   <script>
@@ -1079,6 +1086,42 @@
         });
       };
     } catch (e) {}
+    
+    
+    
+    
+    
+    
+    document.querySelectorAll('.smart-img').forEach(img => {
+  const rawUrl = img.dataset.url || '';
+
+  // اگر با static شروع شده → حذف کن، وگرنه اضافه کن
+  let finalSrc;
+  if (rawUrl.startsWith('static')) {
+    finalSrc = rawUrl.slice('static'.length);        // "static/media/..." → "/media/..."
+  } else if (rawUrl.startsWith('/static')) {
+    finalSrc = rawUrl.slice('/static'.length);       // "/static/media/..." → "/media/..."
+  } else {
+    finalSrc = 'static' + rawUrl;                    // "/media/..." → "static/media/..."
+  }
+
+  img.src = finalSrc;
+
+  // fallback در صورت خطا
+  img.addEventListener('error', function handler() {
+    if (this.src.endsWith(rawUrl)) {
+      this.removeEventListener('error', handler);
+    } else {
+      this.src = rawUrl;
+    }
+  });
+});
+    
+    
+    
+    
+    
+    
   </script>
 
 </body>

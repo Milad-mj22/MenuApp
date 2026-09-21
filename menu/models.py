@@ -29,7 +29,7 @@ class FoodRawMaterial(models.Model):
     # JSON data
     data = models.JSONField(blank=True,null=True)
     price = models.IntegerField(default=0,blank=True,null=True)
-    image = models.ImageField(upload_to='food_images/', blank=True, null=True)  # Added field for image
+    image = models.ImageField(upload_to='static/food_images/', blank=True, null=True)  # Added field for image
     details = models.CharField(max_length=2000,default='',blank=True,null=True)
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True, null=True)  # Discount percentage
     priority = models.IntegerField(default=0)  # New field for priority
