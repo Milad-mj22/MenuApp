@@ -119,14 +119,10 @@ def set_sold_out(request):
 
 
 
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
-
 def show_mobile_menu(request):
     """
     Single menu view with categorized sections for mobile-first UI.
+    فقط موارد is_active=True نمایش داده می‌شوند.
     """
     def clean_name(items, remove_words):
         for item in items:
@@ -136,15 +132,18 @@ def show_mobile_menu(request):
             item.name_new = name
         return items
 
+    # ✅ Base queryset: فقط کالاهای فعال
+    active_items = FoodRawMaterial.objects.filter(is_active=True)
+
     # Pizza
     pizza_single = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name='پیتزا تکنفره')
         .order_by('-priority')
         .reverse()
     )
     pizza_double = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name='پیتزا دونفره')
         .order_by('-priority')
         .reverse()
@@ -154,35 +153,33 @@ def show_mobile_menu(request):
 
     # Sandwich / Burger / Others
     sandwichs = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name__in=['ساندویچ'])
         .order_by('-priority')
         .reverse()
     )
     humbergers = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name__in=['همبرگر'])
         .order_by('-priority')
         .reverse()
     )
     others = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name__in=['سالاد', 'سیب زمینی'])
         .order_by('-priority')
     )
     sookhari = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name__in=['سوخاری'])
         .order_by('-priority')
     )
 
     drinks = list(
-        FoodRawMaterial.objects
+        active_items
         .filter(mother__name__in=['نوشیدنی'])
         .order_by('-priority')
     )
-
-
 
     clean_name(sandwichs, ['ساندویچ'])
     clean_name(humbergers, ['همبرگر'])

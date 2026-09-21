@@ -1000,7 +1000,9 @@ body.lightbox-open {
                 </div>
               {% endif %}
 
-              <div class="card-desc">{{ product.details }}</div>
+              {% if product.details %}
+                  <div class="card-desc">{{ product.details }}</div>
+              {% endif %}
 
               <div class="card-bottom">
                 <div class="card-price">

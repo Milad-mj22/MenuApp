@@ -50,6 +50,14 @@ class FoodRawMaterial(models.Model):
         verbose_name="غذای مادر",
         help_text="دسته‌بندی اصلی که این ماده اولیه به آن تعلق دارد"
     )
+
+    foodsoft_id = models.IntegerField(
+        default=0,
+        verbose_name="فودسافت کد",
+        help_text="کد ثبت شده در فودسافت"
+    )
+
+
     name = models.CharField(
         max_length=200, null=True, blank=True,
         verbose_name="نام",
@@ -91,6 +99,13 @@ class FoodRawMaterial(models.Model):
         verbose_name="محصول جدید",
         help_text="مشخص می‌کند که محصول جدید است یا نه"
     )
+
+    is_active = models.BooleanField(
+        default=False,
+        verbose_name="نمایش محصول",
+        help_text="مشخص می‌کند که محصول نمایش داده میشود یا نه"
+    )
+
 
     def __str__(self):
         return str(self.price)
