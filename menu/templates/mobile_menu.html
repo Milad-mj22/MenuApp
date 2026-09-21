@@ -869,11 +869,12 @@
             {% endif %}
 
             {% if product.image %}
-              <img class="card-img" src="static{{ product.image.url }}" alt="{{ product.name }}">
+              <img class="card-img smart-img"
+                   data-url="{{ product.image.url }}"
+                   alt="{{ product.name }}">
             {% else %}
               <img class="card-img" src="{% static 'pic/logo.png' %}" alt="{{ product.name }}">
             {% endif %}
-
             <div class="card-content">
               <div class="card-title">{{ product.name_new|default:product.name }}</div>
 
@@ -1085,6 +1086,42 @@
         });
       };
     } catch (e) {}
+    
+    
+    
+    
+    
+    
+    document.querySelectorAll('.smart-img').forEach(img => {
+  const rawUrl = img.dataset.url || '';
+
+  // اگر با static شروع شده → حذف کن، وگرنه اضافه کن
+  let finalSrc;
+  if (rawUrl.startsWith('static')) {
+    finalSrc = rawUrl.slice('static'.length);        // "static/media/..." → "/media/..."
+  } else if (rawUrl.startsWith('/static')) {
+    finalSrc = rawUrl.slice('/static'.length);       // "/static/media/..." → "/media/..."
+  } else {
+    finalSrc = 'static' + rawUrl;                    // "/media/..." → "static/media/..."
+  }
+
+  img.src = finalSrc;
+
+  // fallback در صورت خطا
+  img.addEventListener('error', function handler() {
+    if (this.src.endsWith(rawUrl)) {
+      this.removeEventListener('error', handler);
+    } else {
+      this.src = rawUrl;
+    }
+  });
+});
+    
+    
+    
+    
+    
+    
   </script>
 
 </body>

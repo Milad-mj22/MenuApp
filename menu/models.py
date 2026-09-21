@@ -67,7 +67,7 @@ class FoodRawMaterial(models.Model):
         help_text="قیمت محصول (بدون تخفیف)"
     )
     image = models.ImageField(
-        upload_to='food_images/', blank=True, null=True,
+        upload_to='static/food_images/', blank=True, null=True,
         verbose_name="تصویر",
         help_text="تصویر محصول"
     )
