@@ -28,3 +28,19 @@ ModuleNotFoundError: No module named 'django'
 [UID:1634][1818540] packetLen < 0
 [UID:1634][1818540] packetLen < 0
 [UID:1634][1818540] packetLen < 0
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 7, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][2088278] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+OSError: LSAPI: File error
+[UID:1634][3237094] Child process with pid: 3237140 was killed by signal: 15, core dumped: no
+[UID:1634][3237094] Child process with pid: 3237724 was killed by signal: 15, core dumped: no
+[UID:1634][3237094] Child process with pid: 3237792 was killed by signal: 15, core dumped: no
