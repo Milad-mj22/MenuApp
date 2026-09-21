@@ -10,7 +10,7 @@ from .models import (
 
 
 # ============================================================
-# Mother Food
+# غذای مادر
 # ============================================================
 
 @admin.register(mother_food)
@@ -31,9 +31,15 @@ class MotherFoodAdmin(admin.ModelAdmin):
 
     list_per_page = 30
 
+    # --------------------------------------------------------
+    # برچسب‌های فارسی
+    # --------------------------------------------------------
+    def get_model_perms(self, request):
+        return super().get_model_perms(request)
+
 
 # ============================================================
-# Food Raw Material
+# ماده اولیه غذا
 # ============================================================
 
 @admin.register(FoodRawMaterial)
@@ -78,7 +84,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (
-            "Basic Information",
+            "اطلاعات پایه",
             {
                 "fields": (
                     "name",
@@ -90,7 +96,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
         ),
 
         (
-            "Pricing",
+            "قیمت‌گذاری",
             {
                 "fields": (
                     "price",
@@ -101,7 +107,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
         ),
 
         (
-            "Product Settings",
+            "تنظیمات محصول",
             {
                 "fields": (
                     "priority",
@@ -111,7 +117,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
         ),
 
         (
-            "JSON Data",
+            "داده‌های JSON",
             {
                 "fields": (
                     "data",
@@ -120,13 +126,13 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
                     "collapse",
                 ),
                 "description": (
-                    "Additional product data stored as JSON."
+                    "داده‌های اضافی محصول که به‌صورت JSON ذخیره می‌شود."
                 ),
             },
         ),
 
         (
-            "Image Preview",
+            "پیش‌نمایش تصویر",
             {
                 "fields": (
                     "image_preview",
@@ -135,7 +141,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
         ),
 
         (
-            "Timestamps",
+            "تاریخ‌ها",
             {
                 "fields": (
                     "created_at",
@@ -156,15 +162,15 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
     list_per_page = 50
 
     # --------------------------------------------------------
-    # Image Preview
+    # پیش‌نمایش تصویر
     # --------------------------------------------------------
 
-    @admin.display(description="Image")
+    @admin.display(description="تصویر")
     def image_preview(self, obj):
 
         if obj.image:
             return format_html(
-                '<img src="{}" '
+                '<img src="static{}" '
                 'style="'
                 'width:80px;'
                 'height:60px;'
@@ -175,13 +181,13 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
                 obj.image.url,
             )
 
-        return "No Image"
+        return "بدون تصویر"
 
     # --------------------------------------------------------
-    # Discounted Price
+    # قیمت نهایی (پس از تخفیف)
     # --------------------------------------------------------
 
-    @admin.display(description="Final Price")
+    @admin.display(description="قیمت نهایی")
     def discounted_price_display(self, obj):
 
         if obj.price is None:
@@ -208,7 +214,7 @@ class FoodRawMaterialAdmin(admin.ModelAdmin):
 
 
 # ============================================================
-# Restaurant Branch
+# شعبه رستوران
 # ============================================================
 
 @admin.register(RestaurantBranch)
@@ -238,10 +244,10 @@ class RestaurantBranchAdmin(admin.ModelAdmin):
     list_per_page = 30
 
     # --------------------------------------------------------
-    # Sold Out Count
+    # تعداد محصولات تمام‌شده
     # --------------------------------------------------------
 
-    @admin.display(description="Sold Out Products")
+    @admin.display(description="محصولات تمام‌شده")
     def sold_out_count(self, obj):
 
         return obj.sold_out_status.filter(
@@ -250,7 +256,7 @@ class RestaurantBranchAdmin(admin.ModelAdmin):
 
 
 # ============================================================
-# Sold Out Status
+# وضعیت اتمام موجودی
 # ============================================================
 
 @admin.register(SoldOutStatus)
