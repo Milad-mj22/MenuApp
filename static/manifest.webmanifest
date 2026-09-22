@@ -1,0 +1,21 @@
+{
+  "name": "سکه طلا | منوی دیجیتال",
+  "short_name": "سکه طلا",
+  "description": "منوی دیجیتال رستوران سکه طلا",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6EC",
+  "theme_color": "#8A6323",
+  "dir": "rtl",
+  "lang": "fa",
+  "icons": [
+    {
+      "src": "icons/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

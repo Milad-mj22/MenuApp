@@ -16,10 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.contrib.staticfiles import finders
+from django.http import FileResponse
+
+def service_worker(request):
+    path = finders.find('sw.js')
+    return FileResponse(open(path, 'rb'), content_type='application/javascript')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),
+    path('sw.js', service_worker, name='service-worker'),
+
     path('',include('menu.urls')),
 
 ]
