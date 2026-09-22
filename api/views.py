@@ -42,6 +42,7 @@ def _get_client_ip(request):
 @csrf_exempt
 def receive_food(request):
     # اعتبارسنجی
+    print('start')
     key_obj, error = _authenticate(request)
     if error:
         logger.warning(f"Auth failed: {error}")

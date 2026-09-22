@@ -79,3 +79,97 @@ OSError: LSAPI: File error
 [UID:1634][4176242] Child process with pid: 4176329 was killed by signal: 15, core dumped: no
 [UID:1634][4176242] Child process with pid: 4176331 was killed by signal: 15, core dumped: no
 [UID:1634][4176242] Child process with pid: 4176330 was killed by signal: 15, core dumped: no
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 7, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+[UID:1634][359580] Reached max children process limit: 6, extra: 2, current: 8, busy: 8, please increase LSAPI_CHILDREN.
+Forbidden (Referer checking failed - no Referer.): /api/receive_food/
+[UID:1634][359613] packetLen < 0
+Not Found: /favicon.ico
+Forbidden (Referer checking failed - no Referer.): /api/receive_food/
+[UID:1634][377812] packetLen < 0
+Not Found: /licensor.js
+Not Found: /css/support_parent.css
+Not Found: /bot-connect.js
+Not Found: /static/style/sys_files/index.js
+Not Found: /js/lkk_ch.js
+Not Found: /assets/js/message.js
+Not Found: /static/style/protect/index.js
+Not Found: /assets/js/qr_modal.js
+Not Found: /api/receive_food/
+Auth failed: API Key \u0627\u0631\u0627\u0626\u0647 \u0646\u0634\u062f\u0647
+Unauthorized: /api/receive_food
+Not Found: /js/twint_ch.js
+Not Found: /static/pic/logo.png
+Not Found: /js/antibot-client.js
+Not Found: /robots.txt
+Not Found: /assets/js/auth.js
+Not Found: /js/raif_ch.js
+Not Found: /js/qrcode_twint.js
+Not Found: /static/pic/logo.png
+Not Found: /food_images/11test_IMG_2083.jpeg
+Not Found: /food_images/vizhe_RQBORDC.png
+start
+updated : 0
+{'success': True, 'created': 0, 'updated': 0, 'skipped': 84, 'errors_count': 0}
+start
+Not Found: /static/pic/logo.png
+Not Found: /food_images/11test_IMG_2083.jpeg
+Not Found: /food_images/vizhe_RQBORDC.png
+Not Found: /apple-touch-icon-precomposed.png
+Not Found: /apple-touch-icon.png
+Not Found: /favicon.ico
+Not Found: /static/pic/logo.png
+Not Found: /food_images/11test_IMG_2083.jpeg
+Not Found: /food_images/vizhe_RQBORDC.png
+[UID:1634][839898] Child process with pid: 839915 was killed by signal: 15, core dumped: no
+[UID:1634][839898] Child process with pid: 839920 was killed by signal: 15, core dumped: no
+Not Found: /_ignition/execute-solution
+Not Found: /feed/
+Not Found: /wp-login.php
+Not Found: /wp-json/
+Not Found: /xmlrpc.php
+Not Found: /robots.txt
+Not Found: /feed/
+Not Found: /wp-login.php
+Not Found: /wp-json/
+Not Found: /xmlrpc.php
+Not Found: /robots.txt
+Not Found: /.aws/credentials
+Not Found: /aws.env
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /robots.txt
+Not Found: /.well-known/agent-card.json
+Not Found: /.well-known/agent.json
+Not Found: /.well-known/mcp/server-card.json
+Not Found: /.well-known/mcp
+Not Found: /.well-known/agents.json
+Not Found: /robots.txt
+Not Found: /.well-known/agent-card.json
+Not Found: /.well-known/agent.json
+Not Found: /.well-known/mcp/server-card.json
+Not Found: /.well-known/mcp
+Not Found: /.well-known/agents.json
+Not Found: /api/session/properties
+Not Found: /api/session/properties
+Not Found: /api/session/properties
+Not Found: /api/session/properties
+Not Found: /api/session/properties
