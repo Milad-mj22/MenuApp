@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -189,15 +191,28 @@ def show_mobile_menu(request):
 
     # 👇 Structure used by template to build tabs dynamically
     categories = [
-        {'id': 'pizza-double', 'title': 'پیتزا دو‌نفره', 'icon': '🍕🍕', 'items': pizza_double},
-        {'id': 'pizza-single', 'title': 'پیتزا تک‌نفره', 'icon': '🍕', 'items': pizza_single},
-        {'id': 'burger',       'title': 'همبرگر',         'icon': '🍔', 'items': humbergers},
-        {'id': 'sandwich',     'title': 'ساندویچ',        'icon': '🥪', 'items': sandwichs},
-        {'id': 'sookhari',     'title': 'سوخاری',        'icon': '🥪', 'items': sookhari},
-        {'id': 'others',       'title': 'سالاد و پیش غذا', 'icon': '🥗', 'items': others},
-        {'id': 'drinks',       'title': 'نوشیدنی', 'icon': '🥤', 'items': drinks},
+        {'id': 'pizza-double', 'title': 'پیتزا دو‌نفره',  'icon': 'pizza-double', 'items': pizza_double},
+        {'id': 'pizza-single', 'title': 'پیتزا تک‌نفره',  'icon': 'pizza-single', 'items': pizza_single},
+        {'id': 'burger',       'title': 'همبرگر',          'icon': 'burger',       'items': humbergers},
+        {'id': 'sandwich',     'title': 'ساندویچ',         'icon': 'sandwich',     'items': sandwichs},
+        {'id': 'sookhari',     'title': 'سوخاری',          'icon': 'fried',        'items': sookhari},
+        {'id': 'others',       'title': 'سالاد و پیش غذا', 'icon': 'salad',        'items': others},
+        {'id': 'drinks',       'title': 'نوشیدنی',         'icon': 'drink',        'items': drinks},
     ]
     # Remove empty categories
     categories = [c for c in categories if c['items']]
 
     return render(request, 'mobile_menu.html', {'categories': categories})
+
+
+
+
+def submit_order(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'message': 'JSON نامعتبر'}, status=400)
+
+    # TODO: ذخیره‌ی سفارش
+    print(data)
+    return JsonResponse({'status': 'success'})
