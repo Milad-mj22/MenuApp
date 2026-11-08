@@ -1066,6 +1066,128 @@
       .product-modal-desc { color: var(--ink); opacity: 0.85; }
     }
 
+    /* ===== بنر افزودن به صفحه اصلی (PWA Install) ===== */
+    .install-banner {
+      position: fixed;
+      left: 12px; right: 12px;
+      bottom: 86px;
+      max-width: 480px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      padding: 16px 16px 14px;
+      z-index: 9500;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transform: translateY(140%);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.35s ease;
+      pointer-events: none;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+    }
+    @media (prefers-color-scheme: dark) {
+      .install-banner {
+        background: rgba(36, 30, 20, 0.55);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+    }
+    .install-banner.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .install-banner-top { display: flex; align-items: flex-start; gap: 12px; }
+    .install-banner-icon {
+      flex-shrink: 0;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: conic-gradient(from 220deg, #7c5a22, #d9b25c, #f4e2a8, #d9b25c, #8a6323, #d9b25c, #7c5a22);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 10px var(--shadow-color), inset 0 0 0 2px rgba(255,248,220,0.5);
+    }
+    .install-banner-close {
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.35);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .install-banner-text { flex: 1; text-align: right; min-width: 0; }
+    .install-banner-title { font-size: 0.95rem; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+    .install-banner-desc { font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+    .install-banner-ios-steps {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--ink);
+      background: rgba(242, 230, 196, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .install-banner-actions { display: flex; flex-direction: column; gap: 8px; }
+    .install-banner-btn {
+      width: 100%;
+      background: var(--gold-deep);
+      color: #fff8e8;
+      border: none;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .install-banner-btn:hover { background: var(--gold); transform: translateY(-1px); }
+    .install-banner-later {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 10px;
+      text-align: center;
+      transition: background 0.2s, color 0.2s;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .install-banner-later:hover { background: rgba(255, 255, 255, 0.5); }
+    @media (prefers-color-scheme: dark) {
+      .install-banner-later {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+      .install-banner-later:hover { background: rgba(255, 255, 255, 0.15); }
+      .install-banner-ios-steps {
+        background: rgba(54, 43, 21, 0.55);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      .install-banner-close {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .install-banner { bottom: 80px; }
+    }
+
     /* احترام به prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce) {
       .brand-glow,
@@ -1334,6 +1456,31 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== بنر افزودن به صفحه اصلی ===== -->
+  <div class="install-banner" id="installBanner" role="dialog" aria-hidden="true" aria-label="افزودن به صفحه اصلی">
+    <button class="install-banner-close" id="installBannerClose" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="install-banner-top">
+      <div class="install-banner-icon">🪙</div>
+      <div class="install-banner-text">
+        <div class="install-banner-title">سکه طلا رو به صفحه‌ی اصلی گوشیت اضافه کن</div>
+        <div class="install-banner-desc">چند لحظه تا دسترسی همیشگی به منوی سکه طلا .</div>
+        <div class="install-banner-ios-steps" id="installIosSteps" style="display:none;">
+          روی دکمه‌ی اشتراک‌گذاری <strong>⬆️</strong> پایین صفحه بزن، بعد <strong>«Add to Home Screen»</strong> رو انتخاب کن.
+        </div>
+      </div>
+    </div>
+    <div class="install-banner-actions" id="installBannerActions">
+      <button class="install-banner-btn" id="installBannerBtn">افزودن به صفحه اصلی</button>
+      <button class="install-banner-later" id="installBannerLater">فعلاً نه، بعداً یادم بنداز</button>
     </div>
   </div>
 
@@ -1704,7 +1851,7 @@
     const FAQ_DATA = [
       {
         q: "ساعت کاری رستوران چه زمانی است؟",
-        a: "ما همه روزه از ساعت ۱۲ ظهر تا ۲۳ شب آماده پذیرایی از شما هستیم. روزهای تعطیل نیز باز هستیم."
+        a: "ما همه روزه از ساعت ۵ بعد از ظهر تا ۲۳ شب آماده پذیرایی از شما هستیم. روزهای تعطیل نیز باز هستیم."
       },
       {
         q: "آیا امکان رزرو میز وجود دارد؟",
@@ -1729,11 +1876,8 @@
       {
         q: "آیا امکان پرداخت آنلاین هست؟",
         a: "در حال حاضر پرداخت در محل (کارت‌خوان) و نقدی فعال است. به زودی پرداخت آنلاین نیز اضافه می‌شود."
-      },
-      {
-        q: "آیا غذاها حلال هستند؟",
-        a: "بله، تمامی مواد اولیه و گوشت‌های استفاده‌شده در رستوران کاملاً حلال و دارای مجوز بهداشت هستند."
       }
+
     ];
 
     const faqModal     = document.getElementById('faqModal');
@@ -1803,6 +1947,77 @@
         navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
       });
     }
+
+    /* ===== بنر افزودن به صفحه اصلی (Add to Home Screen) ===== */
+    (function () {
+      const STORAGE_KEY = 'sekkeTalaInstallDismissedAt';
+      const DAYS_TO_HIDE = 14;
+
+      const banner        = document.getElementById('installBanner');
+      const closeBtn       = document.getElementById('installBannerClose');
+      const laterBtn        = document.getElementById('installBannerLater');
+      const installBtn      = document.getElementById('installBannerBtn');
+      const iosSteps         = document.getElementById('installIosSteps');
+
+      function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+               window.navigator.standalone === true;
+      }
+
+      function isDismissedRecently() {
+        const t = localStorage.getItem(STORAGE_KEY);
+        if (!t) return false;
+        const diffDays = (Date.now() - Number(t)) / (1000 * 60 * 60 * 24);
+        return diffDays < DAYS_TO_HIDE;
+      }
+
+      // اگر قبلاً نصب شده یا اخیراً بسته شده، اصلاً نشونش نده
+      if (isStandalone() || isDismissedRecently()) return;
+
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+      let deferredPrompt = null;
+
+      function showBanner() {
+        banner.classList.add('open');
+        banner.setAttribute('aria-hidden', 'false');
+      }
+
+      function hideBanner(remember) {
+        banner.classList.remove('open');
+        banner.setAttribute('aria-hidden', 'true');
+        if (remember) localStorage.setItem(STORAGE_KEY, Date.now().toString());
+      }
+
+      // اندروید / کروم: رویداد استاندارد نصب
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        setTimeout(showBanner, 1800);
+      });
+
+      window.addEventListener('appinstalled', () => {
+        hideBanner(true);
+        deferredPrompt = null;
+      });
+
+      // آیفون/سافاری: رویداد نصب خودکار وجود نداره، راهنما نشون بده
+      if (isIOS && !isStandalone()) {
+        iosSteps.style.display = 'block';
+        installBtn.style.display = 'none';
+        setTimeout(showBanner, 1800);
+      }
+
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (e) {}
+        deferredPrompt = null;
+        hideBanner(true);
+      });
+
+      closeBtn.addEventListener('click', () => hideBanner(true));
+      laterBtn.addEventListener('click', () => hideBanner(true));
+    })();
 
   </script>
 
