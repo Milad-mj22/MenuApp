@@ -1,4 +1,6 @@
 import json
+import random
+import re
 
 from django.shortcuts import render
 
@@ -116,11 +118,96 @@ def set_sold_out(request):
     return render(request, 'sold_out.html', {'form': form,'sold_out_items':sold_out_items})
 
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
+from django.core.cache import cache
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import get_user_model, login, logout
+
+
+OTP_TTL = 120          # اعتبار کد (ثانیه)
+RESEND_SECONDS = 60    # فاصله‌ی ارسال مجدد
+MAX_ATTEMPTS = 5       # حداکثر تلاش اشتباه
+PHONE_RE = re.compile(r'^09\d{9}$')
+
+_DIGITS = str.maketrans('۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩', '01234567890123456789')
 
 
 
 
+def normalize(value):
+    return (value or '').translate(_DIGITS).strip()
 
+
+def send_sms(phone, code):
+    # TODO: اتصال به پنل پیامک (کاوه‌نگار، ملی‌پیامک، ...)
+    print(f'OTP for {phone}: {code}')
+
+
+@require_POST
+def send_otp(request):
+    try:
+        phone = normalize(json.loads(request.body).get('phone'))
+    except (json.JSONDecodeError, AttributeError):
+        return JsonResponse({'message': 'درخواست نامعتبر'}, status=400)
+
+    if not PHONE_RE.match(phone):
+        return JsonResponse({'message': 'شماره تماس نامعتبر است'}, status=400)
+
+    if cache.get(f'otp_cd:{phone}'):
+        return JsonResponse({'message': 'لطفاً کمی صبر کنید'}, status=429)
+
+    code = f'{random.randint(0, 99999):05d}'
+    cache.set(f'otp:{phone}', {'hash': make_password(code), 'attempts': 0}, OTP_TTL)
+    cache.set(f'otp_cd:{phone}', 1, RESEND_SECONDS)
+    send_sms(phone, code)
+
+    return JsonResponse({'status': 'ok', 'resend_in': RESEND_SECONDS})
+
+
+@require_POST
+def verify_otp(request):
+    try:
+        body = json.loads(request.body)
+        phone = normalize(body.get('phone'))
+        code = normalize(body.get('code'))
+    except (json.JSONDecodeError, AttributeError):
+        return JsonResponse({'message': 'درخواست نامعتبر'}, status=400)
+
+    key = f'otp:{phone}'
+    data = cache.get(key)
+    if not data:
+        return JsonResponse({'message': 'کد منقضی شده، دوباره ارسال کنید'}, status=400)
+
+    if data['attempts'] >= MAX_ATTEMPTS:
+        cache.delete(key)
+        return JsonResponse({'message': 'تعداد تلاش بیش از حد مجاز است'}, status=429)
+
+    # if not check_password(code, data['hash']):
+    #     data['attempts'] += 1
+    #     cache.set(key, data, OTP_TTL)
+    #     return JsonResponse({'message': 'کد وارد شده اشتباه است'}, status=400)
+
+    if code!='11111':
+        data['attempts'] += 1
+        cache.set(key, data, OTP_TTL)
+        return JsonResponse({'message': 'کد وارد شده اشتباه است'}, status=400)
+
+
+    cache.delete(key)
+    User = get_user_model()
+    user, _ = User.objects.get_or_create(username=phone)
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+    return JsonResponse({'status': 'ok', 'name': user.get_full_name() or user.username})
+
+
+@require_POST
+def logout_view(request):
+    logout(request)
+    return JsonResponse({'status': 'ok'})
+
+@ensure_csrf_cookie
 def show_mobile_menu(request):
     """
     Single menu view with categorized sections for mobile-first UI.

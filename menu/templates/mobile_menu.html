@@ -616,7 +616,6 @@
     }
 
     /* ===== جستجو ===== */
-    .search-wrap { padding: 10px 16px 12px; }
     .search-box {
       display: flex; align-items: center; gap: 8px;
       background: var(--cream);
@@ -635,6 +634,162 @@
       color: var(--muted); cursor: pointer;
       display: none; padding: 4px; line-height: 0;
     }
+/* ===== ردیف جستجو + دکمه ورود ===== */
+.search-wrap {
+  padding: 10px 16px 12px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.search-box { flex: 1; min-width: 0; }
+
+.auth-btn {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+  max-width: 140px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--gold-deep);
+  color: #fff8e8;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: transform 0.15s ease, background 0.2s;
+}
+.auth-btn:hover { background: var(--gold); transform: translateY(-1px); }
+.auth-btn:active { transform: scale(0.96); }
+.auth-btn-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== مودال‌های ورود (هم‌سبک FAQ) ===== */
+.auth-modal {
+  position: fixed; inset: 0;
+  z-index: 10003;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.auth-modal.open { opacity: 1; pointer-events: auto; }
+
+.auth-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.auth-box {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: var(--paper);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(.2, .8, .2, 1);
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
+}
+.auth-modal.open .auth-box { transform: translateY(0); }
+
+.auth-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hairline);
+  background: linear-gradient(160deg, var(--gold-soft), var(--paper));
+}
+.auth-header-title { display: flex; align-items: center; gap: 12px; }
+.auth-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--gold-deep);
+  color: #fff8e8;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  flex-shrink: 0;
+}
+.auth-title { font-size: 1rem; font-weight: 800; color: var(--ink); }
+.auth-subtitle { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+.auth-close {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: var(--paper);
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.auth-close:hover { background: var(--gold-soft); transform: rotate(90deg); }
+
+.auth-body { padding: 20px 18px 22px; text-align: center; }
+.auth-hint { font-size: 0.85rem; line-height: 1.8; color: var(--muted); margin-bottom: 14px; }
+.auth-hint b { color: var(--ink); }
+
+.auth-input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.auth-input::placeholder { color: var(--muted); font-weight: 400; }
+.auth-input:focus { border-color: var(--gold-deep); box-shadow: 0 0 0 3px var(--gold-soft); }
+.auth-input.otp { letter-spacing: 12px; font-size: 1.4rem; }
+
+.auth-err { color: var(--rust); font-size: 0.78rem; font-weight: 600; min-height: 20px; margin: 8px 0 6px; }
+
+.auth-submit {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gold-deep);
+  color: #fff8e8;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.auth-submit:hover { background: var(--gold); transform: translateY(-1px); }
+.auth-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.auth-resend { margin-top: 16px; min-height: 36px; display: flex; align-items: center; justify-content: center; }
+.auth-timer {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.auth-timer b { font-variant-numeric: tabular-nums; min-width: 40px; display: inline-block; }
+.auth-link {
+  background: none; border: none;
+  color: var(--gold-deep);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+.auth-link.muted { color: var(--muted); font-weight: 600; margin-top: 4px; }
+.auth-link:hover { text-decoration: underline; }
+[hidden] { display: none !important; }
+
 
     .no-results {
       text-align: center; color: var(--muted);
@@ -1430,22 +1585,38 @@
 
   <!-- ===== دسته‌بندی‌ها ===== -->
   <div class="categories-wrapper">
-    <div class="search-wrap">
-      <div class="search-box">
-        <svg class="si" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"/>
-          <path d="M21 21l-4.3-4.3"/>
-        </svg>
-        <input type="text" id="menuSearch" placeholder="جستجو در منو…" aria-label="جستجو در منو">
-        <button type="button" class="search-clear" id="searchClear" aria-label="پاک کردن جستجو">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+<div class="search-wrap">
+  <button type="button" id="authBtn" class="auth-btn"
+          data-auth="{{ request.user.is_authenticated|yesno:'1,0' }}">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+    <span class="auth-btn-text">
+      {% if request.user.is_authenticated %}
+        {{ request.user.get_full_name|default:request.user.username }}
+      {% else %}
+        ورود / ثبت‌نام
+      {% endif %}
+    </span>
+  </button>
+
+  <div class="search-box">
+    <svg class="si" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/>
+      <path d="M21 21l-4.3-4.3"/>
+    </svg>
+    <input type="text" id="menuSearch" placeholder="جستجو در منو…" aria-label="جستجو در منو">
+    <button type="button" class="search-clear" id="searchClear" aria-label="پاک کردن جستجو">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+</div>
     <div class="categories" id="categoriesBar" role="tablist" aria-label="دسته‌های منو">
       {% for category in categories %}
         <button type="button" class="category-item {% if forloop.first %}active{% endif %}"
@@ -1735,6 +1906,90 @@
       </div>
     </div>
   </div>
+
+
+
+
+<!-- ===== مودال ۱: شماره تماس ===== -->
+<div class="auth-modal" id="phoneModal" aria-hidden="true" role="dialog">
+  <div class="auth-overlay" data-close></div>
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="auth-header-title">
+        <span class="auth-avatar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </span>
+        <div>
+          <div class="auth-title">ورود / ثبت‌نام</div>
+          <div class="auth-subtitle">با شماره موبایل وارد شوید</div>
+        </div>
+      </div>
+      <button type="button" class="auth-close" data-close aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="auth-body">
+      <p class="auth-hint">شماره موبایل خود را وارد کنید تا کد تایید برایتان ارسال شود.</p>
+      <input id="phoneInput" class="auth-input" type="tel" inputmode="numeric"
+             maxlength="11" placeholder="۰۹۱۲۳۴۵۶۷۸۹" dir="ltr" autocomplete="tel">
+      <div class="auth-err" id="phoneErr"></div>
+      <button type="button" class="auth-submit" id="phoneSubmit">ثبت</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== مودال ۲: کد تایید ===== -->
+<div class="auth-modal" id="otpModal" aria-hidden="true" role="dialog">
+  <div class="auth-overlay" data-close></div>
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="auth-header-title">
+        <span class="auth-avatar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+        </span>
+        <div>
+          <div class="auth-title">کد تایید</div>
+          <div class="auth-subtitle">پیامک را بررسی کنید</div>
+        </div>
+      </div>
+      <button type="button" class="auth-close" data-close aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="auth-body">
+      <p class="auth-hint">کد ۵ رقمی ارسال‌شده به <b id="otpPhone" dir="ltr"></b> را وارد کنید.</p>
+      <input id="otpInput" class="auth-input otp" type="tel" inputmode="numeric"
+             maxlength="5" placeholder="•••••" dir="ltr" autocomplete="one-time-code">
+      <div class="auth-err" id="otpErr"></div>
+      <button type="button" class="auth-submit" id="otpSubmit">تایید و ورود</button>
+
+      <div class="auth-resend">
+        <span class="auth-timer" id="timerText">ارسال مجدد تا <b id="timer">۰۱:۰۰</b></span>
+        <button type="button" class="auth-link" id="resendBtn" hidden>ارسال مجدد کد</button>
+      </div>
+      <button type="button" class="auth-link muted" id="changePhone">ویرایش شماره</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 
   <div class="toast" id="toast"></div>
 
@@ -2407,6 +2662,154 @@
 
     renderAll();
   </script>
+
+
+
+
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const csrf = () => (document.cookie.match(/csrftoken=([^;]+)/) || [])[1] || '';
+  const toEn = s => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+                     .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  const faDigits = s => s.replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+  async function post(url, data) {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrf()},
+      body: JSON.stringify(data || {})
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.message || 'خطا در ارتباط با سرور');
+    return j;
+  }
+
+  const phoneModal = $('phoneModal'), otpModal = $('otpModal');
+  let phone = '', tick = null;
+
+  function openModal(m) {
+    m.classList.add('open');
+    m.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(m) {
+    m.classList.remove('open');
+    m.setAttribute('aria-hidden', 'true');
+  }
+  function closeAll() {
+    closeModal(phoneModal); closeModal(otpModal);
+    clearInterval(tick);
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('#phoneModal [data-close], #otpModal [data-close]')
+    .forEach(el => el.addEventListener('click', closeAll));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && (phoneModal.classList.contains('open') || otpModal.classList.contains('open'))) closeAll();
+  });
+
+  // دکمه‌ی ورود / نام کاربر
+  $('authBtn').addEventListener('click', async () => {
+    if ($('authBtn').dataset.auth === '1') {
+      if (confirm('از حساب کاربری خارج می‌شوید؟')) {
+        try { await post('{% url "logout" %}'); } catch (e) {}
+        location.reload();
+      }
+      return;
+    }
+    $('phoneErr').textContent = '';
+    openModal(phoneModal);
+    setTimeout(() => $('phoneInput').focus(), 300);
+  });
+
+  // تایمر
+  function startTimer(sec) {
+    clearInterval(tick);
+    $('resendBtn').hidden = true;
+    $('timerText').hidden = false;
+    const render = () => {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      $('timer').textContent = faDigits(m + ':' + s);
+    };
+    render();
+    tick = setInterval(() => {
+      sec--;
+      if (sec <= 0) {
+        clearInterval(tick);
+        $('timerText').hidden = true;
+        $('resendBtn').hidden = false;
+      } else render();
+    }, 1000);
+  }
+
+  async function sendCode() {
+    const res = await post('{% url "send_otp" %}', {phone});
+    startTimer(res.resend_in || 60);
+  }
+
+  // مرحله ۱: ثبت شماره
+  async function submitPhone() {
+    phone = toEn($('phoneInput').value.trim());
+    if (!/^09\d{9}$/.test(phone)) {
+      $('phoneErr').textContent = 'شماره موبایل معتبر نیست';
+      return;
+    }
+    $('phoneSubmit').disabled = true;
+    try {
+      await sendCode();
+      closeModal(phoneModal);
+      $('otpPhone').textContent = faDigits(phone);
+      $('otpInput').value = '';
+      $('otpErr').textContent = '';
+      openModal(otpModal);
+      setTimeout(() => $('otpInput').focus(), 300);
+    } catch (e) {
+      $('phoneErr').textContent = e.message;
+    } finally {
+      $('phoneSubmit').disabled = false;
+    }
+  }
+  $('phoneSubmit').addEventListener('click', submitPhone);
+  $('phoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitPhone(); });
+
+  // مرحله ۲: تایید کد
+  async function submitOtp() {
+    const code = toEn($('otpInput').value.trim());
+    if (code.length !== 5) { $('otpErr').textContent = 'کد ۵ رقمی را وارد کنید'; return; }
+    $('otpSubmit').disabled = true;
+    try {
+      await post('{% url "verify_otp" %}', {phone, code});
+      location.reload();
+    } catch (e) {
+      $('otpErr').textContent = e.message;
+      $('otpSubmit').disabled = false;
+    }
+  }
+  $('otpSubmit').addEventListener('click', submitOtp);
+  $('otpInput').addEventListener('input', () => { if (toEn($('otpInput').value).length === 5) submitOtp(); });
+
+  // ارسال مجدد
+  $('resendBtn').addEventListener('click', async () => {
+    $('otpErr').textContent = '';
+    try { await sendCode(); } catch (e) { $('otpErr').textContent = e.message; }
+  });
+
+  // ویرایش شماره
+  $('changePhone').addEventListener('click', () => {
+    clearInterval(tick);
+    closeModal(otpModal);
+    openModal(phoneModal);
+  });
+})();
+</script>
+
+
+
+
+
 
 </body>
 </html>

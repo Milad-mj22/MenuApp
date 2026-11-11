@@ -25,6 +25,7 @@ def service_worker(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('api/',include('api.urls')),
     path('sw.js', service_worker, name='service-worker'),
 
